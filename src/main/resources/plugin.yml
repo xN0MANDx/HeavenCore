@@ -1,0 +1,8 @@
+main: pl.nomand.heavencore.common.HeavenCore
+version: 1.0
+name: HeavenCore
+author: Nomand
+commands:
+  h-reload:
+  h-zoolog:
+  zoolog:

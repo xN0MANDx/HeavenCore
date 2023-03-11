@@ -1,0 +1,8 @@
+# Co ile ranking graczy ma byc zapisywany (w sekundach) oraz dane o zwierzatkach graczy (oprocz tego zapisuja sie przy wyjsciu gracza i wylaczeniu serwera))
+autosave: 300
+# Dane do bazy danych
+mysql:
+  host: "localhost"
+  database: "database"
+  user: "uzytkownik"
+  password: "haslo"

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/main/java/pl/nomand/heavencore/database/MySQL.java" charset="windows-1250" />
+    <file url="file://$PROJECT_DIR$/src/main/java/pl/nomand/heavencore/database/SQL.java" charset="windows-1250" />
+    <file url="file://$PROJECT_DIR$/src/main/java/pl/nomand/heavencore/database/database/MySQL.java" charset="windows-1250" />
+    <file url="file://$PROJECT_DIR$/src/main/java/pl/nomand/heavencore/database/database/SQL.java" charset="windows-1250" />
+    <file url="file://$PROJECT_DIR$/src/main/java/pl/nomand/heavencore/pets/PetTemplate.java" charset="windows-1250" />
+  </component>
+</project>

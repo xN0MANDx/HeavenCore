@@ -1,0 +1,31 @@
+# Lista Bonusow:
+# ENUM(NAZWA, CZY JEST JEDNOSTKĄ (NIE PROCENTEM), ID, NAZWA ZMIENNEJ)
+# -------------------------------------------------------------------
+# HUMAN_DAMAGE("Silny Przeciwko Ludziom", false, 0, "ludzie.pety::"),
+# MOB_DAMAGE("Silny Przeciwko Potworom", false, 1, "potwory.pety::"),
+# MEDIUM_DAMAGE("Srednie Obrazenia", false, 2, "srednie.pety::"),
+# DAMAGE("Wartosc Ataku", true, 3, "wartosc.pety::"),
+# EXP("Srednie Obrazenia", false, 4, "exp.pety::"),
+# CHANCE_FOR_SHOCK("Srednie Obrazenia", false, 5, "porazenie.pety::"),
+# CHANCE_FOR_SLOW("Srednie Obrazenia", false, 6, "spowolnienie.pety::"),
+# CHANCE_FOR_AVOID("Srednie Obrazenia", false, 7, "blok.pety::"),
+# CHANCE_FOR_PENETRATION("Srednie Obrazenia", false, 8, "przebicie.pety::"),
+# MEDIUM_DEFENSE("Srednie Obrazenia", false, 9, "odpornosc.pety::");
+# -------------------------------------------------------------------
+# Rzadkosci:
+# - RARE
+# - EPIC
+# - LEGENDARY
+
+templates:
+  pradawny:
+    rarity: RARE
+    name: "&6Pradawny Programista"
+    skin: "Notch"
+    bons:
+      default:
+        MEDIUM_DEFENSE: 5
+        MOB_DAMAGE: 3
+      onLevel:
+        MEDIUM_DEFENSE: 0.25
+        MOB_DAMAGE: 0.1

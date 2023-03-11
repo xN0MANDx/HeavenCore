@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.1'
+}
+
+group 'pl.nomand.mantracore'
+version '1.0-SNAPSHOT'
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url "https://repo.dmulloy2.net/repository/public/" }
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation group: 'com.zaxxer', name: 'HikariCP', version: '4.0.3'
+    compileOnly fileTree('libs')
+}
