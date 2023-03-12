@@ -38,8 +38,8 @@ public class HeavenCore extends JavaPlugin {
                 for(Player player : Bukkit.getOnlinePlayers()) {
 
                     // Zapisywanie Rankingu do MySQL
-                    RankingData rankingData = new RankingData(instance);
-                    rankingData.updateForEveryone();
+//                    RankingData rankingData = new RankingData(instance);
+//                    rankingData.updateForEveryone();
 
                     // Zapisywanie Danych Gracza do Plikow
                     User user = userManager.getUser(player);
@@ -60,8 +60,8 @@ public class HeavenCore extends JavaPlugin {
             User user = userManager.getUser(player);
             user.save();
 
-            RankingData rankingData = new RankingData(instance);
-            rankingData.updateForEveryone();
+//            RankingData rankingData = new RankingData(instance);
+//            rankingData.updateForEveryone();
         }
 
         Bukkit.getLogger().info("HeavenCore zostal wylaczony!");

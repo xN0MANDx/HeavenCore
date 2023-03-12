@@ -1,5 +1,6 @@
 package pl.nomand.heavencore.pets;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,8 +29,8 @@ public class PetCommands implements CommandExecutor {
             }
 
             if (args.length > 1) {
-                Player player = (Player) sender;
                 if (args[0].equalsIgnoreCase("addExp")) {
+                    Player player = (Player) sender;
                     long value = Long.parseLong(args[1]);
                     User user = main.getUserManager().getUser(player);
                     Pet pet = user.getPet();
@@ -43,16 +44,32 @@ public class PetCommands implements CommandExecutor {
                     PetManager petManager = main.getPetManager();
                     PetTemplate template = petManager.getTemplate(args[1]);
                     if (template != null) {
-                        Pet pet = new Pet(player, template, petManager);
-                        player.getInventory().addItem(pet.toItem());
-                        player.sendMessage("§aOtrzymano template zwierzaka jako przedmiot!");
+                        if (args.length > 2) {
+                            Player target = Bukkit.getPlayer(args[2]);
+                            if (target != null) {
+                                Pet pet = new Pet(target, template, petManager);
+                                target.getInventory().addItem(pet.toItem());
+                                sender.sendMessage("§aNadano template zwierzaka jako przedmiot dla "+target.getName()+"!");
+                            } else {
+                                sender.sendMessage("§cPodany gracz nie istnieje!");
+                            }
+                        } else {
+                            if (sender instanceof Player) {
+                                Player player = (Player) sender;
+                                Pet pet = new Pet(player, template, petManager);
+                                player.getInventory().addItem(pet.toItem());
+                                player.sendMessage("§aOtrzymano template zwierzaka jako przedmiot!");
+                            } else {
+                                sender.sendMessage("§cNie mozesz nadac peta konsoli!");
+                            }
+                        }
                     } else {
                         sender.sendMessage("§cPodany template nie istnieje!");
                     }
                 }
             } else {
                 sender.sendMessage("§7/h-zoolog addExp <exp>");
-                sender.sendMessage("§7/h-zoolog getPet <templateName>");
+                sender.sendMessage("§7/h-zoolog getPet <templateName> (opcjonalnie: <nazwaGracza>");
             }
         } else if (cmd.equalsIgnoreCase("zoolog")) {
             Player player = (Player) sender;

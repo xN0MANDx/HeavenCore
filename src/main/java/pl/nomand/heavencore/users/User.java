@@ -35,8 +35,8 @@ public class User {
                 file.createNewFile();
 
                 // Tworzenie wpisu w bazie danych o rankingu
-                RankingData rankingData = new RankingData(main, player);
-                rankingData.create();
+//                RankingData rankingData = new RankingData(main, player);
+//                rankingData.create();
 
             } catch (IOException e) {
                 throw new RuntimeException(e);

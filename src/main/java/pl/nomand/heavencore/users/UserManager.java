@@ -41,8 +41,8 @@ public class UserManager implements Listener {
         user.save();
         cache.remove(player);
 
-        RankingData rankingData = new RankingData(main, player);
-        rankingData.update();
+//        RankingData rankingData = new RankingData(main, player);
+//        rankingData.update();
     }
 
     public User getUser(Player player) {

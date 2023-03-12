@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class HeavenConfig {
 
-    private final MySQLDataSource mySQLDataSource;
+    private MySQLDataSource mySQLDataSource;
     private final int autosave;
 
     public HeavenConfig(HeavenCore main) {
@@ -26,7 +26,7 @@ public class HeavenConfig {
 
         YamlConfiguration yml = YamlConfiguration.loadConfiguration(file);
 
-        this.mySQLDataSource = new MySQLDataSource(new MySQL(yml.getString("mysql.host"), yml.getString("mysql.database"), yml.getString("mysql.user"), yml.getString("mysql.password")));
+//        this.mySQLDataSource = new MySQLDataSource(new MySQL(yml.getString("mysql.host"), yml.getString("mysql.database"), yml.getString("mysql.user"), yml.getString("mysql.password")));
         this.autosave = yml.getInt("autosave");
 
         Bukkit.getLogger().info("[HeavenCore] Config zostal wczytany.");
