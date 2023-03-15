@@ -43,7 +43,7 @@ public class PetCommands implements CommandExecutor {
                 } else if (args[0].equalsIgnoreCase("getPet")) {
                     PetManager petManager = main.getPetManager();
                     PetTemplate template = petManager.getTemplate(args[1]);
-                    if (template != null) {
+                    if (template != null && !template.getId().equals("unknown")) {
                         if (args.length > 2) {
                             Player target = Bukkit.getPlayer(args[2]);
                             if (target != null) {

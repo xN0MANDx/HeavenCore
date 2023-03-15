@@ -1,5 +1,7 @@
 package pl.nomand.heavencore.pets;
 
+import ch.njol.skript.variables.Variables;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -52,14 +54,11 @@ public class PetExperience extends Experience {
         pet.despawn();
         pet.spawn();
 
-        // Update User Bons
-        user.addBons(pet.getTemplate().getBonsPerLevel());
-
-        // Update Pet Bons
-        for(Bon templateBon : pet.getTemplate().getBonsPerLevel())
-            for(Bon petBon : pet.getBons())
-                if (templateBon.getType() == petBon.getType())
-                    petBon.setValue(petBon.getValue() + templateBon.getValue());
+        for(Bon bon : user.getPet().getBons()) {
+            Bukkit.broadcastMessage(bon.getType() + " " +bon.getValue());
+            Double prevValue = (Double) Variables.getVariable(bon.getType().getVariable() + owner.getName().toLowerCase(), null, false);
+            Bukkit.broadcastMessage("W BAZIE DANYCH: "+prevValue);
+        }
     }
 
 }

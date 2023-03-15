@@ -10,7 +10,8 @@
 # CHANCE_FOR_SLOW("Srednie Obrazenia", false, 6, "spowolnienie.pety::"),
 # CHANCE_FOR_AVOID("Srednie Obrazenia", false, 7, "blok.pety::"),
 # CHANCE_FOR_PENETRATION("Srednie Obrazenia", false, 8, "przebicie.pety::"),
-# MEDIUM_DEFENSE("Srednie Obrazenia", false, 9, "odpornosc.pety::");
+# MEDIUM_DEFENSE("Srednie Obrazenia", false, 9, "odpornosc.pety::"),
+# CHANCE_FOR_EXPLOSION("Szansa Na Wybuch", false, 10, "wybuch.pety::");
 # -------------------------------------------------------------------
 # Rzadkosci:
 # - RARE

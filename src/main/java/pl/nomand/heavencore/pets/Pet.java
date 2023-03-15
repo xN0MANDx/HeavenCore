@@ -30,10 +30,9 @@ public class Pet {
 
     private final PetManager manager;
     private final Player owner;
-    private final PetTemplate template;
+    private PetTemplate template;
 
     // Permanent
-    private final List<Bon> bons;
     private final PetExperience experience;
     private String customName;
 
@@ -45,7 +44,6 @@ public class Pet {
     private double height = 0;
     private EntityArmorStand entity;
     private PacketPlayOutEntityEquipment skullPacket;
-//    private WrapperPlayServerEntityEquipment skullPacket;
 
     // Loading From Item
     public Pet(Player owner, ItemStack item, PetManager manager) {
@@ -60,11 +58,6 @@ public class Pet {
             this.customName = ni.getString("pet.customName");
 
         experience = new PetExperience(this, ni.getInteger("pet.level"), ni.getLong("pet.exp"));
-
-        bons = new ArrayList<>();
-        for(BonType type : BonType.values())
-            if (ni.hasKey("pet.bons."+type))
-                bons.add(new Bon(type, ni.getDouble("pet.bons."+type)));
     }
 
     // Direct Loading Of New Pet
@@ -73,7 +66,6 @@ public class Pet {
         this.owner = owner;
         this.template = template;
         this.experience = new PetExperience(this, 0, 0);
-        this.bons = new ArrayList<>(template.getDefaultBons());
     }
 
     // Loading Pet From User File
@@ -81,19 +73,10 @@ public class Pet {
         this.manager = manager;
         this.owner = owner;
 
-        template = manager.getTemplate(yml.getString("pet.template"));
+        this.template = manager.getTemplate(yml.getString("pet.template"));
 
         if (yml.isSet("pet.customName"))
             customName = yml.getString("pet.customName");
-
-        bons = new ArrayList<>();
-        if (yml.isSet("pet.bons")) {
-            for (String x : yml.getConfigurationSection("pet.bons").getKeys(false)) {
-                BonType bonType = BonType.valueOf(x);
-                double value = yml.getDouble("pet.bons." + x);
-                bons.add(new Bon(bonType, value));
-            }
-        }
 
         experience = new PetExperience(this, yml);
     }
@@ -102,16 +85,13 @@ public class Pet {
         yml.set("pet.template", template.getId());
         yml.set("pet.customName", customName);
 
-        for(Bon bon : bons)
-            yml.set("pet.bons."+bon.getType().toString(), bon.getValue());
-
         experience.save(yml);
     }
 
     // Animations & Movement
 
     private void tick() {
-        if (!spawned || !owner.isOnline())
+        if (!spawned || !owner.isOnline() || this.entity == null)
             return;
 
         this.height += ADD;
@@ -153,7 +133,7 @@ public class Pet {
         location = owner.getLocation();
         initEntity(owner.getWorld());
 
-        manager.getMain().getUserManager().getUser(owner).addBons(this.bons);
+        manager.getMain().getUserManager().getUser(owner).addBons(getBons());
 
         showToEveryone();
         spawned = true;
@@ -181,15 +161,15 @@ public class Pet {
     private void initEntity(World world) {
         ItemStack skull = template.getSkull();
 
-        entity = new EntityArmorStand(((CraftWorld) world).getHandle());
-        entity.setGravity(false);
-        entity.setCustomName("§8[§fLvl "+experience.getLevel()+"§8] "+getName());
-        entity.setCustomNameVisible(true);
-        entity.setInvisible(true);
-        entity.setEquipment(4, template.getNetSkull());
-        entity.setSmall(true);
+        this.entity = new EntityArmorStand(((CraftWorld) world).getHandle());
+        this.entity.setGravity(false);
+        this.entity.setCustomName("§8[§fLvl "+experience.getLevel()+"§8] "+getName());
+        this.entity.setCustomNameVisible(true);
+        this.entity.setInvisible(true);
+        this.entity.setEquipment(4, template.getNetSkull());
+        this.entity.setSmall(true);
 
-        skullPacket = new PacketPlayOutEntityEquipment(entity.getBukkitEntity().getEntityId(), 4, template.getNetSkull());
+        skullPacket = new PacketPlayOutEntityEquipment(this.entity.getBukkitEntity().getEntityId(), 4, template.getNetSkull());
     }
 
     public void updatePositionView() {
@@ -199,6 +179,11 @@ public class Pet {
     public void showTo(Player p) {
         if (viewers.contains(p))
             return;
+
+        if (this.entity == null) {
+            Bukkit.getLogger().warning("[HeavenCore] Nie mozna odnalezc obiektu zwierzaka gracza "+this.owner.getName()+" - Problemy z serwerem ?");
+            return;
+        }
 
         CraftPlayer player = (CraftPlayer) p;
         player.getHandle().playerConnection.sendPacket(getSpawnPacket());
@@ -217,6 +202,11 @@ public class Pet {
     }
 
     private void showToEveryone() {
+        if (this.entity == null) {
+            Bukkit.getLogger().warning("[HeavenCore] Nie mozna odnalezc obiektu zwierzaka gracza "+this.owner.getName()+" - Problemy z serwerem ?");
+            return;
+        }
+
         location.getWorld().getPlayers().forEach(this::showTo);
     }
 
@@ -256,6 +246,7 @@ public class Pet {
         lore.add(template.getRarity().getName());
         lore.add("");
 
+        List<Bon> bons = getBons();
         if (bons.size() > 0) {
             lore.add("§6Bonusy");
             bons.forEach(bon -> lore.add("§7"+bon.getType().getName()+": §a+"+ Utils.deleteZero(bon.getValue())+(bon.getType().isUnit() ? "" : "%") ));
@@ -282,9 +273,6 @@ public class Pet {
         ni.setInteger("pet.level", experience.getLevel());
         ni.setLong("pet.exp", experience.getExp());
 
-        for(Bon bon : bons)
-            ni.setDouble("pet.bons."+bon.getType(), bon.getValue());
-
         // FINAL ITEMSTACK
 
         return ni.getItem();
@@ -297,6 +285,29 @@ public class Pet {
     }
 
     public List<Bon> getBons() {
+        List<Bon> bons = new ArrayList<>();
+
+        for(Bon bon : template.getDefaultBons())
+            bons.add(new Bon(bon));
+
+        if (this.experience.getLevel() > 0) {
+            for(Bon bon : template.getBonsPerLevel()) {
+                Bon searched = null;
+
+                for(Bon oldBon : bons)
+                    if (bon.getType() == oldBon.getType())
+                        searched = oldBon;
+
+                if (searched != null) {
+                    searched.setValue(searched.getValue() + bon.getValue() * this.experience.getLevel());
+                } else {
+                    Bon newBon = new Bon(bon);
+                    newBon.setValue(newBon.getValue() * this.experience.getLevel());
+                    bons.add(newBon);
+                }
+            }
+        }
+
         return bons;
     }
 
@@ -322,6 +333,10 @@ public class Pet {
 
     public PetTemplate getTemplate() {
         return template;
+    }
+
+    public void setTemplate(PetTemplate petTemplate) {
+        this.template = petTemplate;
     }
 
     public PetManager getManager() {

@@ -20,8 +20,24 @@ public class PetTemplate {
     private final net.minecraft.server.v1_8_R3.ItemStack netSkull;
 
     private Rarity rarity;
-    private final List<Bon> defaultBons = new ArrayList<>();
-    private final List<Bon> bonsPerLevel = new ArrayList<>();
+    private List<Bon> defaultBons = new ArrayList<>();
+    private List<Bon> bonsPerLevel = new ArrayList<>();
+
+    public PetTemplate(String id, String name, String skin, Rarity rarity, List<Bon> defaultBons, List<Bon> bonsPerLevel) {
+        this.id = id;
+        this.name = name;
+        this.rarity = rarity;
+        this.defaultBons = defaultBons;
+        this.bonsPerLevel = bonsPerLevel;
+
+        ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        SkullMeta meta = (SkullMeta) item.getItemMeta();
+        meta.setOwner(skin);
+        item.setItemMeta(meta);
+        skull = item;
+
+        this.netSkull = CraftItemStack.asNMSCopy(skull);
+    }
 
     public PetTemplate(YamlConfiguration yml, String path, String id) {
         this.id = id;

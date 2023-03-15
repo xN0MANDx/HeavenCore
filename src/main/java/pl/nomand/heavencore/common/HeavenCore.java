@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.nomand.heavencore.items.ItemManager;
+import pl.nomand.heavencore.pets.Pet;
 import pl.nomand.heavencore.pets.PetManager;
 import pl.nomand.heavencore.ranking.RankingData;
 import pl.nomand.heavencore.users.User;
@@ -58,6 +59,7 @@ public class HeavenCore extends JavaPlugin {
         for(Player player : Bukkit.getOnlinePlayers()) {
             // Zapisywanie Danych Gracza do Plikow
             User user = userManager.getUser(player);
+            // w przypadku crasha nie obsluzy resetu bonusow i tak wiec idk czy ma sens
             user.save();
 
 //            RankingData rankingData = new RankingData(instance);

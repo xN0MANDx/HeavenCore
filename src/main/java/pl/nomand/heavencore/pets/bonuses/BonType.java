@@ -14,7 +14,8 @@ public enum BonType {
     CHANCE_FOR_SLOW("Szansa Na Spowolnienie", false, 6, "spowolnienie.pety::"),
     CHANCE_FOR_AVOID("Szansa Na Blok Ciosu", false, 7, "blok.pety::"),
     CHANCE_FOR_PENETRATION("Szansa Na Przebicie Bloku Ciosu", false, 8, "przebicie.pety::"),
-    MEDIUM_DEFENSE("Srednia Odpornosc", false, 9, "odpornosc.pety::");
+    MEDIUM_DEFENSE("Srednia Odpornosc", false, 9, "odpornosc.pety::"),
+    CHANCE_FOR_EXPLOSION("Szansa Na Wybuch", false, 10, "wybuch.pety::");
 
     private final String name;
     private final boolean unit;

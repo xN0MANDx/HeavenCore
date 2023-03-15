@@ -22,6 +22,7 @@ import pl.nomand.heavencore.users.User;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PetManager implements Listener {
@@ -44,6 +45,26 @@ public class PetManager implements Listener {
 
     public void reload() {
         load();
+
+        new BukkitRunnable() {
+            public void run() {
+                for(Player player : Bukkit.getOnlinePlayers()) {
+                    User user = main.getUserManager().getUser(player);
+                    if (user != null) {
+                        Pet pet = user.getPet();
+                        if (pet != null) {
+                            pet.despawn();
+
+                            PetTemplate assignedTemplateToID = main.getPetManager().getTemplate(pet.getTemplate().getId());
+                            if (assignedTemplateToID != pet.getTemplate())
+                                pet.setTemplate(assignedTemplateToID);
+
+                            pet.spawn();
+                        }
+                    }
+                }
+            }
+        }.runTaskLater(main, 20);
     }
 
     public void load() {
@@ -102,10 +123,12 @@ public class PetManager implements Listener {
                 templates.put(id, new PetTemplate(yml, "templates."+id+".", id));
 
         Bukkit.getLogger().info("Zaladowano "+templates.size()+" szablonow zwierzakow!");
+
+        templates.put("unknown", new PetTemplate("unknown", "Blednik", "SecretProfile", Rarity.LEGENDARY, new ArrayList<>(), new ArrayList<>()));
     }
 
     public PetTemplate getTemplate(String id) {
-        return templates.get(id);
+        return templates.containsKey(id) ? templates.get(id) : templates.get("unknown");
     }
 
     public HeavenCore getMain() {
@@ -134,6 +157,11 @@ public class PetManager implements Listener {
 
         for(Player loopPlayer : player.getWorld().getPlayers()) {
             User loopUser = main.getUserManager().getUser(loopPlayer);
+            if (loopUser == null) {
+                Bukkit.getLogger().warning("[HeavenCore] Nie mozna odnalezc profilu uzytkownika dla: "+loopPlayer.getName()+" (Problem z serwerem ?)");
+                continue;
+            }
+
             Pet loopPet = loopUser.getPet();
             if (loopPet != null)
                 loopPet.showTo(player);

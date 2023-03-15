@@ -47,6 +47,7 @@ public class User {
 
         YamlConfiguration yml = YamlConfiguration.loadConfiguration(file);
 
+        this.resetBons();
         if (yml.isSet("pet"))
             this.pet = new Pet(player, main.getPetManager(), yml);
     }
