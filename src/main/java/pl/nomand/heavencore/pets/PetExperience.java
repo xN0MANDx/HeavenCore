@@ -53,12 +53,6 @@ public class PetExperience extends Experience {
 
         pet.despawn();
         pet.spawn();
-
-        for(Bon bon : user.getPet().getBons()) {
-            Bukkit.broadcastMessage(bon.getType() + " " +bon.getValue());
-            Double prevValue = (Double) Variables.getVariable(bon.getType().getVariable() + owner.getName().toLowerCase(), null, false);
-            Bukkit.broadcastMessage("W BAZIE DANYCH: "+prevValue);
-        }
     }
 
 }
