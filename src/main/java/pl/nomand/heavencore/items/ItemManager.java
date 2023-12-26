@@ -36,6 +36,12 @@ public class ItemManager {
         cache.add(setDummy(item, true));
     }
 
+    public static ItemStack getDummy(ItemStack item) {
+        NBTItem ni = new NBTItem(item);
+        ni.setBoolean("dummy", true);
+        return ni.getItem();
+    }
+
     public boolean isDummy(ItemStack item) {
         NBTItem ni = new NBTItem(item);
         return ni.hasKey("dummy");

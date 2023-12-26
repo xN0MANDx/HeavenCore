@@ -9,6 +9,7 @@ import pl.nomand.heavencore.items.ItemManager;
 import pl.nomand.heavencore.pets.Pet;
 import pl.nomand.heavencore.pets.PetManager;
 import pl.nomand.heavencore.ranking.RankingData;
+import pl.nomand.heavencore.trades.Trade;
 import pl.nomand.heavencore.users.User;
 import pl.nomand.heavencore.users.UserManager;
 
@@ -30,6 +31,7 @@ public class HeavenCore extends JavaPlugin {
         this.itemManager = new ItemManager();
         new BaseListeners(this);
         new Commands(this);
+        new Trade(this);
 
         int autosave = heavenConfig.getAutosave() * 20;
 

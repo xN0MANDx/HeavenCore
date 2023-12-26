@@ -201,6 +201,9 @@ public class PetManager implements Listener {
 
         for(Player loopPlayer : e.getFrom().getPlayers()) {
             User loopUser = main.getUserManager().getUser(loopPlayer);
+            if (loopUser == null)
+                continue;
+
             Pet loopPet = loopUser.getPet();
             if (loopPet != null)
                 loopPet.hideFrom(player);
@@ -208,6 +211,9 @@ public class PetManager implements Listener {
 
         for(Player loopPlayer : player.getWorld().getPlayers()) {
             User loopUser = main.getUserManager().getUser(loopPlayer);
+            if (loopUser == null)
+                continue;
+            
             Pet loopPet = loopUser.getPet();
             if (loopPet != null)
                 loopPet.showTo(player);
