@@ -16,6 +16,7 @@ public class PetCommands implements CommandExecutor {
         this.main = main;
         main.getCommand("h-zoolog").setExecutor(this);
         main.getCommand("zoolog").setExecutor(this);
+        main.getCommand("hpc").setExecutor(this);
     }
 
     @Override
@@ -74,6 +75,44 @@ public class PetCommands implements CommandExecutor {
         } else if (cmd.equalsIgnoreCase("zoolog")) {
             Player player = (Player) sender;
             main.getPetManager().getGuiManager().open(player);
+        } else if (cmd.equalsIgnoreCase("hpc")) {
+
+            if (sender instanceof Player) {
+                sender.sendMessage("Tylko konsola moze uzywac tej komendy!");
+                return true;
+            }
+
+            if (args.length < 2) {
+                sender.sendMessage("/hpc <nick> <exp_dla_peta>");
+                return true;
+            }
+
+            Player player = Bukkit.getPlayer(args[0]);
+            if (player == null) {
+                sender.sendMessage("Nie mozna nadac expa dla peta! Gracz jest offline!");
+                return true;
+            }
+
+            long exp;
+
+            try {
+                exp = Long.parseLong(args[1]);
+            } catch (Exception e) {
+                sender.sendMessage("Nie mozna nadac expa dla peta! Podano bledny exp: "+args[1]);
+                return true;
+            }
+
+            if (exp <= 0) {
+                sender.sendMessage("Exp dla peta nie moze byc 0 ani ujemny!");
+                return true;
+            }
+
+            User user = main.getUserManager().getUser(player);
+            Pet pet = user.getPet();
+            if (pet == null)
+                return true;
+
+            pet.getExperience().addExp(exp);
         }
 
         return false;

@@ -173,7 +173,11 @@ public class Pet {
     }
 
     public void updatePositionView() {
-        viewers.forEach(this::sendTeleportPacket);
+        new BukkitRunnable() {
+            public void run() {
+                new HashSet<>(viewers).forEach(Pet.this::sendTeleportPacket);
+            }
+        }.runTaskAsynchronously(manager.getMain());
     }
 
     public void showTo(Player p) {
@@ -247,7 +251,7 @@ public class Pet {
         lore.add("");
 
         List<Bon> bons = getBons();
-        if (bons.size() > 0) {
+        if (!bons.isEmpty()) {
             lore.add("§6Bonusy");
             bons.forEach(bon -> lore.add("§7"+bon.getType().getName()+": §a+"+ Utils.deleteZero(bon.getValue())+(bon.getType().isUnit() ? "" : "%") ));
             lore.add("");

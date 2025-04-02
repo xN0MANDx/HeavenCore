@@ -31,6 +31,9 @@ public class Trade implements Listener{
 			
 			if(e.getRightClicked() instanceof Player) {
 
+				if (e.getRightClicked().hasMetadata("NPC"))
+					return;
+
 				// Weryfikacja kodu
 				String a1 = "kod::gracz::" + e.getPlayer().getName().toLowerCase();
 				Boolean result1 = (Boolean) Variables.getVariable(a1, null, false);

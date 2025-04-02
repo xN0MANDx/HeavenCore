@@ -15,7 +15,22 @@ public enum BonType {
     CHANCE_FOR_AVOID("Szansa Na Blok Ciosu", false, 7, "blok.pety::"),
     CHANCE_FOR_PENETRATION("Szansa Na Przebicie Bloku Ciosu", false, 8, "przebicie.pety::"),
     MEDIUM_DEFENSE("Srednia Odpornosc", false, 9, "odpornosc.pety::"),
-    CHANCE_FOR_EXPLOSION("Szansa Na Wybuch", false, 10, "wybuch.pety::");
+    CHANCE_FOR_EXPLOSION("Szansa Na Wybuch", false, 10, "wybuch.pety::"),
+
+    CHANCE_FOR_FISH("Zwiekszona Szansa Na Pomyslny Polow", false, 11, "szansapolow.pety::"),
+    CHANCE_FOR_DOUBLE_FISH("Szansa Na Podwojny Polow", false, 12, "podwojnypolow.pety::"),
+
+    CHANCE_FOR_DOUBLE_ORE_DAMAGE("Szansa Na Podwojne Obrazenia W Rudy", false, 13, "dmggornik.pety::"),
+    CHANCE_FOR_DOUBLE_ORE_ITEM("Szansa Na Podwojenie Rudy", false, 14, "szansagornik.pety::"),
+
+    CHANCE_FOR_UPGRADE("Zwiekszona Szansa Na Ulepszenie", false, 15, "ulepszenie.pety::"),
+    CHANCE_FOR_DOUBLE_UPGRADE("Szansa Na Podwojne Ulepszenie", false, 16, "podwojne.pety::"),
+
+    FORTUNE("Szczescie", false, 17, "chance.pety::"),
+    SPEED("Szybkosc Ruchu", false, 18, "speed.pety::"),
+    TRUE_BLOCK("Nieprzebijalny Blok Ciosow", false, 19, "blok2.pety::"),
+
+    ;
 
     private final String name;
     private final boolean unit;
